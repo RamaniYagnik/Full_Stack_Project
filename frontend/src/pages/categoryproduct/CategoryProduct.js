@@ -17,7 +17,6 @@ const CategoryProduct = () => {
 
   const isFirstLoad = useRef(true)
 
-  //Sort By
   const [sortBy, setSortBy] = useState("")
 
   const handleOnChangeSortBy = async (e) => {
@@ -102,10 +101,9 @@ const CategoryProduct = () => {
 
   return (
     <div className='p-5'>
-      <div className='hidden lg:grid grid-cols-[200px,1fr]'>
+      <div className='lg:grid grid-cols-[200px,1fr]'>
 
-        {/* Left - Filters */}
-        <div className='bg-white p-2 h-[calc(100vh-120px)] sticky top-[150px] overflow-y-auto scrollbarnone'>
+        <div className='md:block hidden bg-white p-2 h-[calc(100vh-120px)] sticky top-[150px] overflow-y-auto scrollbarnone'>
           <div>
             <h3 className='text-center uppercase font-medium text-slate-600 border-b pb-1'>SORT By</h3>
             <form className='text-sm flex flex-col gap-2 py-2'>
@@ -140,8 +138,7 @@ const CategoryProduct = () => {
           </div>
         </div>
 
-        {/* Right - Products */}
-        <div>
+        <div className=''>
           {!loading && data.length > 0 && (
             <VerticalCardProduct products={data} />
           )}

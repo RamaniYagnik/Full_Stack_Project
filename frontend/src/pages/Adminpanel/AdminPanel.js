@@ -30,6 +30,7 @@ const AdminPanel = () => {
             <nav className='grid p-4'>
                 <Link to={'alluser'} className='p-2 hover:bg-slate-200 transition-all' >All-Users</Link>
                 <Link to={'allproducts'} className='p-2 hover:bg-slate-200 transition-all' >All-Products</Link>
+                <Link to={'allorders'} className='p-2 hover:bg-slate-200 transition-all' >All-Orders</Link>
             </nav>
         </div>
       </aside>

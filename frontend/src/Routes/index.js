@@ -25,6 +25,8 @@ import Sale from "../pages/AllCategoryPages/Sale/Sale.js";
 import Productdetails from "../pages/Productdetails/Productdetails.js";
 import Cart from "../pages/Cart/Cart.js";
 import SearchProduct from "../pages/Search/SearchProduct.js";
+import Ordersuccess from "../pages/OrderSuccess/Ordersuccess.js";
+import Orderpage from "../pages/Adminpanel/OrderPage/Orderpage.js";
 
 const router = createBrowserRouter([
     {
@@ -120,6 +122,10 @@ const router = createBrowserRouter([
                 element: <SearchProduct/>
             },
             {
+                path: "/order-success",
+                element: <Ordersuccess/>
+            },
+            {
                 path: "/adminpanel",
                 element: <AdminPanel />,
                 children: [
@@ -130,6 +136,10 @@ const router = createBrowserRouter([
                   {
                     path: "allproducts",     
                     element: <AllProducts />
+                  },
+                  {
+                    path: "allorders",
+                    element: <Orderpage />
                   }
                 ]
               }

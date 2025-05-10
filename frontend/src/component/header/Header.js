@@ -72,7 +72,6 @@ const Header = () => {
                             <Link to={'/'} ><img src={logo} alt="Titan Logo" className="w-full" /></Link>
                         </div>
 
-                        {/* Search Bar - hidden on medium and smaller screens */}
                         <div className="hidden md:flex items-center border border-gray-300 rounded-md px-3 mx-3 py-1 w-1/2">
                             <FiSearch className="text-gray-500 mr-2" />
                             <input
@@ -87,7 +86,6 @@ const Header = () => {
                             <BsMic className="text-gray-500 ml-2" />
                         </div>
 
-                        {/* Icons */}
                         <div className="flex items-center space-x-6">
                             <div className="flex flex-col items-center hover:text-slate-500 transition-all hover:cursor-pointer">
                                 {
@@ -127,11 +125,22 @@ const Header = () => {
 
                                 {
                                     menuDisplay && (
-                                        <div className="absolute bg-slate-100 mt-2 transition-all shadow-lg p-4 top-10 -right-1 hover:bg-slate-200 rounded-lg hidden md:block">
+                                        <div className="absolute bg-slate-100 mt-2 transition-all shadow-lg p-4 top-10 -right-1 hover:bg-slate-200 rounded-lg">
                                             <nav>
                                                 {
                                                     user?.role === ROLE.ADMIN && (
-                                                        <Link to={'/adminpanel/allproducts'} className="whitespace-nowrap" onClick={() => setMenuDisplay((prev) => !prev)}>Admin-Panel</Link>
+                                                        <>
+                                                            <Link to={'/adminpanel/allproducts'} className="whitespace-nowrap hidden md:block" onClick={() => setMenuDisplay((prev) => !prev)}>Admin-Panel</Link>
+                                                            <div className=" hover:bg-slate-50">
+                                                                <Link to={'/order-success'} className="whitespace-nowrap py-2" onClick={() => setMenuDisplay((prev) => !prev)}>Order-Page</Link>
+                                                            </div>
+                                                        </>
+                                                    )
+                                                    
+                                                }
+                                                {
+                                                    user?.role === ROLE.GENERAL && (
+                                                        <Link to={'/order-success'} className="whitespace-nowrap py-2" onClick={() => setMenuDisplay((prev) => !prev)}>Order-Page</Link>
                                                     )
                                                 }
                                             </nav>

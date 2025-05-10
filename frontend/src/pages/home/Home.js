@@ -3,7 +3,8 @@ import CategoryList from '../../component/CategoryList/CategoryList'
 import HomeCrousel from './HomeCrousel/HomeCrousel'
 import HomeSection from './homesection/HomeSection'
 import HorizontalCardProduct from '../../component/HorizontalCardProduct/horizontalCardProduct'
-import VerticalCardProduct from '../../component/VerticalProductCard/VerticalProductCard'
+import Shopbybrands from '../../component/shopbybrands/Shopbybrands'
+import Movementinquartz from '../../component/movementinquartz/Movementinquartz'
 
 const Home = () => {
   return (
@@ -12,7 +13,8 @@ const Home = () => {
       <HomeSection/>
       <CategoryList/>
       <HorizontalCardProduct category={'women'} heading={"BestSellers"} />
-      <VerticalCardProduct category={'nebula'} heading={"New'arrivlas"} />
+      <Shopbybrands  heading={"Shop By Brands"} />
+      <Movementinquartz heading={"Movement In Quartz"} />
     </div>
   )
 }

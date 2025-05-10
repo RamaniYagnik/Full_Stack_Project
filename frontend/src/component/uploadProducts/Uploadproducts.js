@@ -36,20 +36,20 @@ const Uploadproducts = ({
 
   const handleUploadProduct = async (e) => {
     const files = Array.from(e.target.files);
-  
+
     const uploadedImages = await Promise.all(
       files.map(async (file) => {
         const uploadImageCloudinary = await uploadImage(file);
         return uploadImageCloudinary.url;
       })
     );
-  
+
     setFormData((prev) => ({
       ...prev,
       productImage: [...prev.productImage, ...uploadedImages]
     }));
   };
-  
+
 
   const handleDeleteProductImage = async (index) => {
 
@@ -68,31 +68,31 @@ const Uploadproducts = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(Api.addproducts.url,{
+    const response = await fetch(Api.addproducts.url, {
       method: Api.addproducts.method,
       headers: {
-        "Content-Type":"application/json"
+        "Content-Type": "application/json"
       },
       credentials: "include",
-      body : await JSON.stringify(formData)
+      body: await JSON.stringify(formData)
     })
 
     const responseData = await response.json()
 
-    if(responseData.success){
+    if (responseData.success) {
       toast.success(responseData?.message)
       onClose()
       fetchData()
     }
-    if(responseData.error){
+    if (responseData.error) {
       toast.error(responseData?.message)
     }
 
   };
 
   return (
-    <div className='fixed w-full h-full bg-slate-200 bg-opacity-50 top-0 bottom-0 left-0 right-0 flex justify-center items-center'>
-      <div className='bg-white p-4 rounded-xl w-full max-w-xl h-full max-h-[75%] overflow-hidden'>
+    <div className='fixed w-full h-full bg-slate-200 bg-opacity-50 top-0 bottom-0 left-0 right-0 flex justify-center items-center z-10'>
+      <div className='bg-white p-4 rounded-xl w-full max-w-xl max-h-[90%] flex flex-col'>
         <div className='flex justify-between items-center'>
           <h2 className='font-bold text-lg'>Upload Products</h2>
           <div>
@@ -100,7 +100,7 @@ const Uploadproducts = ({
           </div>
         </div>
         <form onSubmit={handleSubmit} className=' mt-5 flex flex-col' encType='multipart/form-data'>
-          <div className='overflow-y-scroll max-h-[400px] pr-2 space-y-3'>
+          <div className='overflow-y-auto max-h-[calc(100vh-200px)] pr-2 space-y-3 flex-grow'>
             <div>
               <input
                 type="text"

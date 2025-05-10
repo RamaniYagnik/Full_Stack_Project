@@ -14,4 +14,4 @@ userSignupSchema.pre('save', async function(next) {
     next()
 })
 
-export default mongoose.model('signupUsers',userSignupSchema)
+export default mongoose.model('signupusers',userSignupSchema)

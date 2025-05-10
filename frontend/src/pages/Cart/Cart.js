@@ -4,12 +4,15 @@ import { toast } from 'react-toastify'
 import displayINRcurrency from '../../helpers/DisplayCurrency'
 import { IoIosTrash } from "react-icons/io";
 import Context from '../../context/context';
+import loadRazorpayScript from '../../helpers/RazorpayScript';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
 
     const context = useContext(Context)
+    const navigate = useNavigate()
 
     const fetchData = async () => {
         try {
@@ -33,7 +36,7 @@ const Cart = () => {
         }
     }
 
-    const handleLoading = async() => {
+    const handleLoading = async () => {
         setLoading(true)
         await fetchData()
         setLoading(false)
@@ -42,7 +45,7 @@ const Cart = () => {
     useEffect(() => {
         handleLoading()
         fetchData()
-    },[])
+    }, [])
 
     const increaseQyt = async (id, qty) => {
         const response = await fetch(`${Api.updateProduct.url}/${id}`, {
@@ -100,11 +103,82 @@ const Cart = () => {
 
     }
 
+    const handleCheckout = async () => {
+        const res = await loadRazorpayScript();
+        if (!res) {
+            toast.error("Razorpay SDK failed to load.");
+            return;
+        }
+
+        try {
+            const orderResponse = await fetch(Api.createOrder.url, {
+                method: Api.createOrder.method,
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({ amount: grandTotal })
+            });
+
+            const { order, success } = await orderResponse.json();
+
+            if (!success) {
+                toast.error("Failed to create order.");
+                return;
+            }
+
+            const options = {
+                key: "rzp_test_ovPLb7nFwiBEGM",
+                amount: order.amount,
+                currency: order.currency,
+                name: "Your Shop Name",
+                description: "Order Payment",
+                order_id: order.id,
+                handler: async function (response) {
+                    const verifyResponse = await fetch(Api.verifyPayment.url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        credentials: "include",
+                        body: JSON.stringify(response)
+                    });
+
+                    const verifyData = await verifyResponse.json();
+
+                    if (verifyData.success) {
+                        toast.success("Payment Successful!");
+                        await fetchData();
+                        context.fetchAddTocart(); 
+                        navigate("/order-success");
+                    } else {
+                        toast.error("Payment Verification Failed!");
+                    }
+                },
+
+                prefill: {
+                    name: "User Name",
+                    email: "user@example.com"
+                },
+                theme: {
+                    color: "#F37254"
+                }
+            };
+
+            const razor = new window.Razorpay(options);
+            razor.open();
+
+        } catch (error) {
+            console.error("Checkout error:", error);
+            toast.error("Something went wrong during checkout.");
+        }
+    };
+
+
     useEffect(() => {
         fetchData()
     }, [])
 
-    // Total and discount logic
     const orderValue = data.reduce((acc, item) => acc + (item.product?.price || 0) * item.quantity, 0)
     const discount = 1500
     const grandTotal = orderValue - discount
@@ -120,11 +194,10 @@ const Cart = () => {
                     </div>
                 ) : (
                     <div className='flex flex-wrap gap-6'>
-                        {/* Left Section - Cart Items */}
+                        
                         <div className='w-full lg:w-3/5 space-y-6'>
                             {data.map((item, idx) => (
                                 <div key={idx} className='flex flex-col sm:flex-row bg-white rounded-xl shadow-md p-4'>
-                                    <input type="checkbox" className='md:mr-4 md:mt-16 mr-auto w-fit' />
                                     <img
                                         src={item.product?.productImage[0] || 'https://via.placeholder.com/150'}
                                         alt={item.product?.productName}
@@ -155,7 +228,6 @@ const Cart = () => {
                             ))}
                         </div>
 
-                        {/* Right Section - Summary */}
                         <div className='w-full lg:w-1/3'>
                             <div className='md:sticky md:top-44 bg-white p-6 rounded-xl shadow-2xl'>
                                 <h3 className='text-lg font-semibold mb-4'>Order Summary ({data.length} item{data.length > 1 && 's'})</h3>
@@ -178,9 +250,13 @@ const Cart = () => {
                                     <span>Grand Total</span>
                                     <span>₹{grandTotal.toLocaleString()}</span>
                                 </div>
-                                <button className='w-full bg-yellow-600 text-white font-semibold py-2 mt-4 rounded hover:bg-yellow-700'>
+                                <button
+                                    className='w-full bg-yellow-600 text-white font-semibold py-2 mt-4 rounded hover:bg-yellow-700'
+                                    onClick={handleCheckout}
+                                >
                                     PROCEED TO CHECKOUT
                                 </button>
+
                                 <div className='mt-3 text-sm text-green-600'>You’re saving ₹{discount} on this purchase</div>
                             </div>
                         </div>

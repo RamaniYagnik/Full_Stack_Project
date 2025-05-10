@@ -19,7 +19,7 @@ async function create(req, res) {
             success: true
         })
 
-    } catch (error) {
+    } catch (err) {
         res.json({
             message:err.message || err,
             error: true,

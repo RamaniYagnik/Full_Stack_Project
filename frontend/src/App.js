@@ -62,7 +62,7 @@ const App = () => {
         setCartProductCount
       }}>
         <ScrollToTop/>
-        <ToastContainer position='top-center' />
+        <ToastContainer position='top-center' autoClose={2000} />
         <Header />
         <main className='min-h-[calc(100vh-100px)] mt-[135px]'>
           <Outlet />

@@ -13,6 +13,7 @@ import AllUsersRouter from './Routes/AdminpanelRoutes/AllUsersRoutes.js'
 import updateUserRouter from './Routes/AdminpanelRoutes/updateUserRouter.js'
 import UploadProductRouter from './Routes/UploadProductRuoutes.js'
 import cartRouter from './Routes/cartRoutes.js'
+import orderRouter from './Routes/orderRoutes/OrderRoutes.js'
 
 const app = express()
 app.use(express.json())
@@ -30,6 +31,7 @@ app.use("/Allusers",AllUsersRouter)
 app.use("/updateuser",updateUserRouter)
 app.use("/products",UploadProductRouter)
 app.use("/cart",cartRouter)
+app.use("/order",orderRouter)
 
 app.get("/checkCookies", (req, res) => {
     console.log("Cookies in /checkCookies:", req.cookies);

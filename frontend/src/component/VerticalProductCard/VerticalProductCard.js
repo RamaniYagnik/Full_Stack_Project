@@ -38,7 +38,7 @@ const VerticalCardProduct = ({
     }, [category, products])
 
     return (
-        <div className='px-4 my-6 mx-16'>
+        <div className='px-4 my-6 lg:mx-16 md:mx-10 mx-5'>
             <h2 className='text-2xl font-semibold'>{heading}</h2>
 
             <div className="flex my-4 flex-wrap">

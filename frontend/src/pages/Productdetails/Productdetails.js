@@ -38,9 +38,9 @@ const ProductDetails = () => {
 
   return (
     <div className="flex flex-col lg:flex-row gap-10 p-6 max-w-screen-xl mx-auto">
-      {/* Left Side - Images */}
+      
       <div className="flex gap-6 w-full lg:w-1/2 justify-center">
-        {/* Thumbnails */}
+        
         <div className="flex md:flex-col gap-2 overflow-y-auto scrollbarnone max-h-96 pr-1 mt-4">
           {product.productImage.map((img, idx) => (
             <img
@@ -53,7 +53,7 @@ const ProductDetails = () => {
           ))}
         </div>
 
-        {/* Main Image */}
+        
         <div className="border p-2 max-h-[500px]">
           <img src={mainImage} alt={product.productName} className="w-[400px] object-contain" />
         </div>

@@ -27,6 +27,7 @@ import Cart from "../pages/Cart/Cart.js";
 import SearchProduct from "../pages/Search/SearchProduct.js";
 import Ordersuccess from "../pages/OrderSuccess/Ordersuccess.js";
 import Orderpage from "../pages/Adminpanel/OrderPage/Orderpage.js";
+import Wishlist from "../component/wishlist/Wishlist.js";
 
 const router = createBrowserRouter([
     {
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
             {
                 path: "/order-success",
                 element: <Ordersuccess/>
+            },
+            {
+                path: "/wishlist",
+                element: <Wishlist/>
             },
             {
                 path: "/adminpanel",

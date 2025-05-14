@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setUserDetails } from "../../store/userSlice";
 import ROLE from "../../APIs/Role";
 import Context from "../../context/context";
+import { CiHeart } from "react-icons/ci";
 
 const Header = () => {
 
@@ -24,6 +25,27 @@ const Header = () => {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [menuDisplay, setMenuDisplay] = useState(false)
     const [searchInput, setSearchInput] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+
+    const handleLiveSearch = async (value) => {
+        if (value.trim() === "") {
+            setSearchResults([]);
+            return;
+        }
+
+        try {
+            const response = await fetch(`${Api.SearchProduct.url}?q=${value.trim()}`);
+            const data = await response.json();
+            if (data.success) {
+                setSearchResults(data.data);
+            } else {
+                setSearchResults([]);
+            }
+        } catch (err) {
+            console.error("Live search error:", err);
+            setSearchResults([]);
+        }
+    };
 
     const handleLogout = async () => {
         const fetchData = await fetch(Api.logout.url, {
@@ -72,18 +94,48 @@ const Header = () => {
                             <Link to={'/'} ><img src={logo} alt="Titan Logo" className="w-full" /></Link>
                         </div>
 
-                        <div className="hidden md:flex items-center border border-gray-300 rounded-md px-3 mx-3 py-1 w-1/2">
+                        <div className="relative hidden md:flex items-center border border-gray-300 rounded-md px-3 mx-3 py-1 w-1/2">
                             <FiSearch className="text-gray-500 mr-2" />
                             <input
                                 type="text"
                                 value={searchInput}
-                                onChange={(e) => setSearchInput(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    setSearchInput(value);
+                                    handleLiveSearch(value);
+                                }}
                                 onKeyDown={handleSearch}
                                 placeholder="Search here"
                                 className="w-full outline-none"
                             />
-
                             <BsMic className="text-gray-500 ml-2" />
+
+                            {/* 🔽 Search Dropdown Results */}
+                            {searchResults.length > 0 && (
+                                <div className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-50 max-h-64 overflow-y-auto scrollbarnone">
+                                    {searchResults.map(product => (
+                                        <Link
+                                            key={product._id}
+                                            to={`/productdetails/${product._id}`}
+                                            className="flex items-center px-4 py-2 hover:bg-gray-100 border-b"
+                                            onClick={() => {
+                                                setSearchInput('');
+                                                setSearchResults([]);
+                                            }}
+                                        >
+                                            <img
+                                                src={product?.productImage?.[0] || "/placeholder.jpg"}
+                                                alt={product.productName}
+                                                className="w-10 h-10 object-cover mr-3 rounded"
+                                            />
+                                            <div className="flex-1">
+                                                <p className="text-sm font-medium line-clamp-1">{product.productName}</p>
+                                                <p className="text-xs text-gray-500 line-clamp-1">{product.brandName}</p>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         <div className="flex items-center space-x-6">
@@ -106,10 +158,22 @@ const Header = () => {
 
                             {
                                 user?._id && (
+                                    <Link to={"/wishlist"} className="relative flex flex-col items-center hover:text-slate-500 transition-all hover:cursor-pointer">
+                                        <span className="text-2xl"><CiHeart /></span>
+                                        <span className="text-xs">Wishlist</span>
+                                        <span className="absolute -top-2 -right-1 bg-yellow-600 text-white rounded-full text-xs px-1">
+                                            {context?.wishlistCount || 0}
+                                        </span>
+                                    </Link>
+                                )
+                            }
+
+                            {
+                                user?._id && (
                                     <Link to={"/cart"} className="relative flex flex-col items-center hover:text-slate-500 transition-all hover:cursor-pointer">
                                         <span className="text-2xl"><FaShoppingBag /></span>
                                         <span className="text-xs">Cart</span>
-                                        <span className="absolute -top-3 -right-3 bg-yellow-600 text-white rounded-full text-sm px-1">
+                                        <span className="absolute -top-3 -right-3 bg-yellow-600 text-white rounded-full text-xs px-1">
                                             {context?.cartProductCount || 0}
                                         </span>
                                     </Link>
@@ -136,7 +200,7 @@ const Header = () => {
                                                             </div>
                                                         </>
                                                     )
-                                                    
+
                                                 }
                                                 {
                                                     user?.role === ROLE.GENERAL && (

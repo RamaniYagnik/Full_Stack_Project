@@ -1,28 +1,25 @@
 import ProductModel from "../../Model/ProductModel.js"
 
-const SearchProduct = async (req,res) => {
+const SearchProduct = async (req, res) => {
     try {
-        
+
         const query = req.query.q
-        
-        const regexp = new RegExp(query,'i','g')
+
+        const regexp = new RegExp(query, 'i', 'g')
 
         const product = await ProductModel.find({
-            "$or" : [
-                {
-                    brandName : regexp
-                },
-                {
-                    category : regexp
-                }
+            "$or": [
+                { productName: regexp },
+                { brandName: regexp },
+                { category: regexp }
             ]
         })
 
         res.json({
-            message : "Success",
-            data : product,
-            error : false,
-            success : true
+            message: "Success",
+            data: product,
+            error: false,
+            success: true
         })
 
     } catch (err) {

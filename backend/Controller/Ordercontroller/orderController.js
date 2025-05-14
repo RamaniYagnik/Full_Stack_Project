@@ -46,7 +46,7 @@ export const getAllOrders = async (req, res) => {
   try {
     const allOrders = await OrderModel.find()
       .populate('user', 'name email')
-      .populate('items.product', 'productName price')
+      .populate('items.product', 'productName price productImage')
       .sort({ createdAt: -1 });
 
     const enrichedOrders = allOrders.map(order => {

@@ -16,6 +16,7 @@ const App = () => {
 
   const dispatch = useDispatch()
   const [ cartProductCount, setCartProductCount ] = useState(0)
+  const [ wishlistCount, setWishlistCount ] = useState(0)
 
   const fetchUserDetail = async () => {
     const response = await fetch(BackendApi.current_user.url, {
@@ -46,11 +47,24 @@ const App = () => {
     
   }
 
+  const fetchWishlist = async() => {
+    const response = await fetch(BackendApi.getWishlistCount.url, {
+      method: BackendApi.getWishlistCount.method,
+      credentials: "include"
+    });
+
+    const dataApi = await response.json();
+
+    setWishlistCount(dataApi?.data?.count || 0)
+    console.log("Wishlist Count :- ",dataApi);
+    
+  }
+
   useEffect(() => {
 
     fetchUserDetail()
     fetchAddTocart()
-
+    fetchWishlist()
   },[])
 
   return (
@@ -59,7 +73,10 @@ const App = () => {
         fetchUserDetail,
         cartProductCount,
         fetchAddTocart,
-        setCartProductCount
+        setCartProductCount,
+        wishlistCount,
+        fetchWishlist,
+        setWishlistCount
       }}>
         <ScrollToTop/>
         <ToastContainer position='top-center' autoClose={2000} />

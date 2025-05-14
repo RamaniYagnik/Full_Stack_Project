@@ -40,7 +40,7 @@ const OrderSuccess = () => {
       console.error(err);
     }
   };
-  
+
   const handleDelete = async (orderId) => {
     try {
       const res = await fetch(Api.deleteOrder.url(orderId), {
@@ -58,7 +58,7 @@ const OrderSuccess = () => {
       toast.error("Delete error");
       console.error(err);
     }
-  };  
+  };
 
   useEffect(() => {
     fetchUserOrders();
@@ -77,6 +77,28 @@ const OrderSuccess = () => {
             <h1 className="text-2xl font-bold text-green-600 mb-2">
               {order.status === "Delivered" ? "Order Delivered" : "Payment Successful"}
             </h1>
+            <div className="mb-4 p-4 bg-gray-50 rounded">
+              <h4 className="font-semibold mb-2">Delivery Information:</h4>
+              <p className="text-sm">
+                <span className="font-medium">Name:</span> {order.deliveryInfo?.fullName || 'N/A'}
+              </p>
+              <p className="text-sm">
+                <span className="font-medium">Phone:</span> {order.deliveryInfo?.mobile || 'N/A'}
+              </p>
+              <p className="text-sm">
+                <span className="font-medium">Address:</span> {order.deliveryInfo?.houseAddress || 'N/A'}
+              </p>
+              <p className="text-sm">
+                <span className="font-medium">City:</span> {order.deliveryInfo?.city || 'N/A'},
+                <span className="font-medium"> State:</span> {order.deliveryInfo?.state || 'N/A'},
+                <span className="font-medium"> Pincode:</span> {order.deliveryInfo?.pincode || 'N/A'}
+              </p>
+              {order.deliveryInfo?.landmark && (
+                <p className="text-sm">
+                  <span className="font-medium">Landmark:</span> {order.deliveryInfo.landmark}
+                </p>
+              )}
+            </div>
             <p className="text-md mb-4">
               Order ID: {order.orderId} | Payment ID: {order.paymentId} <br />
               Date: {new Date(order.createdAt).toLocaleString()} | Status:{" "}

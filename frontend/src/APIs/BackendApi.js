@@ -99,6 +99,22 @@ const Api = {
         url: `${backendApi}/order/updateOrder`,
         method: "put"
     },
+    addToWishlist: {
+        url: `${backendApi}/wishlist/add`,
+        method: "post"
+    },
+    getWishlist: {
+        url: `${backendApi}/wishlist/get`,
+        method: "get"
+    },
+    deleteWishlist: {
+        url: (productId) => `${backendApi}/wishlist/delete/${productId}`,
+        method: "delete"
+    },
+    getWishlistCount: {
+        url: `${backendApi}/wishlist/getCount`,
+        method: "get"
+    },
 }
 
 export default Api

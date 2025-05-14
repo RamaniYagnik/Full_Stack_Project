@@ -12,6 +12,15 @@ const orderSchema = new mongoose.Schema({
   orderId: { type: String },
   signature: { type: String },
   status: { type: String, default: "Pending" },
+  deliveryInfo: {
+    fullName: { type: String, required: true },
+    mobile: { type: Number, required: true },
+    pincode: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    houseAddress: { type: String, required: true },
+    landmark: { type: String }
+  },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -14,6 +14,7 @@ import updateUserRouter from './Routes/AdminpanelRoutes/updateUserRouter.js'
 import UploadProductRouter from './Routes/UploadProductRuoutes.js'
 import cartRouter from './Routes/cartRoutes.js'
 import orderRouter from './Routes/orderRoutes/OrderRoutes.js'
+import wishlistRouter from './Routes/wishlistRoutes.js'
 
 const app = express()
 app.use(express.json())
@@ -32,6 +33,7 @@ app.use("/updateuser",updateUserRouter)
 app.use("/products",UploadProductRouter)
 app.use("/cart",cartRouter)
 app.use("/order",orderRouter)
+app.use("/wishlist",wishlistRouter)
 
 app.get("/checkCookies", (req, res) => {
     console.log("Cookies in /checkCookies:", req.cookies);

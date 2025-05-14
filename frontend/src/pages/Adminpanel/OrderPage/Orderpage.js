@@ -64,6 +64,28 @@ const AllOrders = () => {
             <h3 className="text-lg font-semibold text-green-600 mb-2">
               Order {order.status === "Delivered" ? "Delivered" : ""}
             </h3>
+            <div className="mb-4 p-4 bg-gray-50 rounded">
+              <h4 className="font-semibold mb-2">Delivery Information:</h4>
+              <p className="text-sm">
+                <span className="font-medium">Name:</span> {order.deliveryInfo?.fullName || 'N/A'}
+              </p>
+              <p className="text-sm">
+                <span className="font-medium">Phone:</span> {order.deliveryInfo?.mobile || 'N/A'}
+              </p>
+              <p className="text-sm">
+                <span className="font-medium">Address:</span> {order.deliveryInfo?.houseAddress || 'N/A'}
+              </p>
+              <p className="text-sm">
+                <span className="font-medium">City:</span> {order.deliveryInfo?.city || 'N/A'},
+                <span className="font-medium"> State:</span> {order.deliveryInfo?.state || 'N/A'},
+                <span className="font-medium"> Pincode:</span> {order.deliveryInfo?.pincode || 'N/A'}
+              </p>
+              {order.deliveryInfo?.landmark && (
+                <p className="text-sm">
+                  <span className="font-medium">Landmark:</span> {order.deliveryInfo.landmark}
+                </p>
+              )}
+            </div>
             <p className="text-sm mb-1">
               <span className="font-medium">Order ID:</span> {order.orderId} &nbsp;|&nbsp;
               <span className="font-medium">Payment ID:</span> {order.paymentId}
@@ -81,13 +103,13 @@ const AllOrders = () => {
             <div className="space-y-3">
               {order.items.map((item, idx) => (
                 <div key={idx} className="border rounded p-3 flex items-center gap-4">
-                  {item.product?.productImage?.[0] && (
-                    <img
-                      src={item.product.productImage[0]}
-                      alt="product"
-                      className="w-16 h-16 rounded object-cover"
-                    />
-                  )}
+
+                  <img
+                    src={item.product.productImage?.[0]}
+                    alt="product"
+                    className="w-16 h-16 rounded object-cover"
+                  />
+
                   <div>
                     <p className="font-medium">{item.product?.productName}</p>
                     <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>

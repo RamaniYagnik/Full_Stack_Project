@@ -29,8 +29,6 @@ const App = () => {
     if (dataApi.success) {
       dispatch(setUserDetails(dataApi.data))
     }
-
-    console.log("User Detail Response:", dataApi);
   
   };
 
@@ -43,7 +41,6 @@ const App = () => {
     const dataApi = await response.json();
 
     setCartProductCount(dataApi?.data?.count || 0)
-    console.log("product Count :- ",dataApi);
     
   }
 
@@ -56,7 +53,6 @@ const App = () => {
     const dataApi = await response.json();
 
     setWishlistCount(dataApi?.data?.count || 0)
-    console.log("Wishlist Count :- ",dataApi);
     
   }
 

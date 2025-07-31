@@ -52,8 +52,6 @@ const LoginForm = () => {
                 toast.error(data.message)
             }
 
-            console.log("Login-Data :- ",data);
-
         } else {
             console.log("please enter email or password");
         }

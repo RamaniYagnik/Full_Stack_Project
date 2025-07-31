@@ -66,8 +66,6 @@ const Header = () => {
 
     }
 
-    console.log("Product Quantity :- ", context)
-
     const handleSearch = (e) => {
         if (e.key === 'Enter') {
             const trimmed = searchInput.trim();

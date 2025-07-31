@@ -18,7 +18,6 @@ const userLoginController = {
             if(!user) throw new Error("User Not Found")
 
             const checkPassword = await bcrypt.compare(password,user.password)
-            console.log("Checkpassword :- ",checkPassword);
 
             if(checkPassword){
 

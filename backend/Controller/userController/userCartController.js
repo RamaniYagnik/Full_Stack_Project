@@ -26,8 +26,6 @@ const cartController = {
                 })
             }
 
-            console.log("product :- ", cart);
-
             res.json({
                 message: "Product Added To Cart...",
                 data: cart,

@@ -36,7 +36,6 @@ app.use("/order",orderRouter)
 app.use("/wishlist",wishlistRouter)
 
 app.get("/checkCookies", (req, res) => {
-    console.log("Cookies in /checkCookies:", req.cookies);
     res.json({ cookies: req.cookies });
 });  
 

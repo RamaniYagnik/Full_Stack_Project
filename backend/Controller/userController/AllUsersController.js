@@ -2,8 +2,6 @@ import userSignupModel from '../../Model/userSignupModel.js'
 
 async function allUsersController(req,res) {
     try {
-        console.log("Current UserId :- ",req.userId);
-
         const Allusers = await userSignupModel.find()
 
         res.json({

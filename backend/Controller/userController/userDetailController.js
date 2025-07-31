@@ -3,7 +3,6 @@ import userSignupModel from "../../Model/userSignupModel.js";
 async function userDetailController(req, res) {
     try {
       
-      console.log("user id :- ", req.userId) 
       
       if (!req.userId) {
         return res.status(400).json({
@@ -14,7 +13,6 @@ async function userDetailController(req, res) {
       }
       
       const user = await userSignupModel.findById(req.userId)
-      console.log(user)
       res.status(200).json({
         data: user,
         error: false,

@@ -13,7 +13,6 @@ const ChangeUserRole = ({
 
     const handleChange = (e) => {
         setUserRole(e.target.value)
-        console.log(e.target.value);
     }
 
     const updateUserRole = async () => {
@@ -31,7 +30,6 @@ const ChangeUserRole = ({
           });
       
           const responseData = await fetchResponse.json();
-          console.log("Role Updated :- ", responseData);
       
           if (responseData.success) {
             toast.success("User role updated successfully");
